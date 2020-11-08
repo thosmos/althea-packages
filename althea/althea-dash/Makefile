@@ -12,8 +12,8 @@ PKG_VERSION:=0.3.11
 PKG_RELEASE:=3
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=https://github.com/althea-mesh/althea-dash
-PKG_SOURCE_VERSION:=91eb4428d9cab89cc2f5fd906436f5f43d427cfb
+PKG_SOURCE_URL:=https://github.com/thosmos/althea-dash
+PKG_SOURCE_VERSION:=1e575c50884627686fa3e8d92bfb1a9249910e95
 PKG_LICENSE:=Apache-2.0
 
 include $(INCLUDE_DIR)/package.mk
@@ -23,7 +23,7 @@ define Package/althea-dash
   CATEGORY:=Utilities
   SUBMENU:=Althea
   TITLE:=Althea Dashboard
-  URL:=https://github.com/althea-mesh/althea-dash
+  URL:=https://github.com/thosmos/althea-dash
   MAINTAINER:= Justin Kilpatrick <justin@althea.net>
   DEPENDS:=@IPV6 +uhttpd
 endef
