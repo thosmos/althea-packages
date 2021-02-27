@@ -60,22 +60,13 @@ define Build/Compile
 	(\
 		cd $(PKG_BUILD_DIR)/rita && \
 \
-#		OPENSSL_DIR=$(STAGING_DIR)/usr/ \
-#		RUSTFLAGS="-C linker=$(TARGET_CC_NOCACHE) -C ar=$(TARGET_AR)" \
-#		TARGET=$(RUST_TRIPLE) \
-#		TARGET_CC=$(TARGET_CC_NOCACHE) \
-#		TARGET_CXX=$(TARGET_CXX_NOCACHE) \
-#		PKG_CONFIG_ALLOW_CROSS=1 \
-#		SQLITE3_LIB_DIR="$(STAGING_DIR)/usr/lib/" \
-#		CROSS_COMPILE=$(CROSS_PREFIX) \
-#		OPENSSL_STATIC=1 \	
         OPENSSL_DIR=$(STAGING_DIR)/usr/ \
         TARGET=$(RUST_TRIPLE) \
         SQLITE3_LIB_DIR="$(STAGING_DIR)/usr/lib/" \
         CROSS_COMPILE=$(CROSS_PREFIX) \
         TARGET_CC=$(TARGET_CC_NOCACHE) \
         RUSTFLAGS=$(RUSTFLAGS) \
-        OPENSSL_STATIC=1 \		
+        OPENSSL_STATIC=1 \
 \
 		cargo build --release --target $(RUST_TRIPLE) --bin rita \
 	)
