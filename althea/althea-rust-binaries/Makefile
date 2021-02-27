@@ -35,25 +35,23 @@ define Package/althea-rust-binaries/description
 endef
 
 ifeq ($(ARCH),arm)
-	CROSS_PREFIX:=arm-openwrt-linux-muslgnueabi
-	TARGET_LD:=arm-openwrt-linux-muslgnueabi-ld
-	TARGET_AR:=arm-openwrt-linux-muslgnueabi-ar
+    CROSS_PREFIX:=arm-openwrt-linux-muslgnueabi
+    RUSTFLAGS:="-C linker=$(TARGET_CC_NOCACHE)"	
 else ifeq ($(ARCH),mips)
-	CROSS_PREFIX:=mips-openwrt-linux-musl
-	TARGET_LD:=mips-openwrt-linux-musl-ld
-	TARGET_AR:=mips-openwrt-linux-musl-ar
+    CROSS_PREFIX:=mips-openwrt-linux-musl
+    RUSTFLAGS:="-C linker=$(TARGET_CC_NOCACHE)"	
 else ifeq ($(ARCH),mips64)
-	CROSS_PREFIX:=mips64-openwrt-linux
-	TARGET_LD:=mips64-openwrt-linux-ld
-	TARGET_AR:=mips64-openwrt-linux-ar
+    CROSS_PREFIX:=mips64-openwrt-linux
+    RUSTFLAGS:="-C linker=$(TARGET_CC_NOCACHE)"	
 else ifeq ($(ARCH),mipsel)
-	CROSS_PREFIX:=mipsel-openwrt-linux-musl
-	TARGET_LD:=mipsel-openwrt-linux-musl-ld
-	TARGET_AR:=mipsel-openwrt-linux-musl-ar
+    CROSS_PREFIX:=mipsel-openwrt-linux-musl
+    RUSTFLAGS:="-C linker=$(TARGET_CC_NOCACHE)"	
 else ifeq ($(ARCH),x86_64)
-	CROSS_PREFIX:=x86_64-openwrt-linux-musl
-	TARGET_LD:=x86_64-openwrt-linux-musl-ld
-	TARGET_AR:=x86_64-openwrt-linux-musl-ar
+    CROSS_PREFIX:=x86_64-openwrt-linux-musl
+    RUSTFLAGS:="-C linker=$(TARGET_CC_NOCACHE)"	
+else ifeq ($(ARCH),aarch64)
+    CROSS_PREFIX:=aarch64-openwrt-linux-musl
+    RUSTFLAGS:="-C linker=$(TARGET_CC_NOCACHE)"	
 endif
 
 RITA_PATH:="$(PKG_BUILD_DIR)/target/$(RUST_TRIPLE)/release/rita"
@@ -62,15 +60,13 @@ define Build/Compile
 	(\
 		cd $(PKG_BUILD_DIR)/rita && \
 \
-		OPENSSL_DIR=$(STAGING_DIR)/usr/ \
-		RUSTFLAGS="-C linker=$(TARGET_CC_NOCACHE) -C ar=$(TARGET_AR)" \
-		TARGET=$(RUST_TRIPLE) \
-		TARGET_CC=$(TARGET_CC_NOCACHE) \
-		TARGET_CXX=$(TARGET_CXX_NOCACHE) \
-		PKG_CONFIG_ALLOW_CROSS=1 \
-		SQLITE3_LIB_DIR="$(STAGING_DIR)/usr/lib/" \
-		CROSS_COMPILE=$(CROSS_PREFIX) \
-		OPENSSL_STATIC=1 \
+        OPENSSL_DIR=$(STAGING_DIR)/usr/ \
+        TARGET=$(RUST_TRIPLE) \
+        SQLITE3_LIB_DIR="$(STAGING_DIR)/usr/lib/" \
+        CROSS_COMPILE=$(CROSS_PREFIX) \
+        TARGET_CC=$(TARGET_CC_NOCACHE) \
+        RUSTFLAGS=$(RUSTFLAGS) \
+        OPENSSL_STATIC=1 \
 \
 		cargo build --release --target $(RUST_TRIPLE) --bin rita \
 	)
